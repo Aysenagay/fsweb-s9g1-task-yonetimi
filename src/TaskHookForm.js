@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function TaskHookForm(props) {
   const { kisiler } = props;
@@ -59,13 +60,29 @@ export default function TaskHookForm(props) {
         <label className="input-label">İnsanlar</label>
         <div>
           {kisiler.map((p) => (
-            <label className="input-checkbox" key={p} htmlFor={p}>
-              <input type="checkbox" name="people" value={p} id={p} />
+            <label className="input-checkbox" key={p}>
+              <input
+                type="checkbox"
+                name="people"
+                value={p}
+                {...register("people", {
+                  validate: {
+                    lessThanTen: (a) =>
+                      a.length >= 1 || "Lütfen en az bir kişi seçin",
+                  },
+                  validate: {
+                    lessThanTen: (v) =>
+                      v.length <= 3 || "En fazla 3 kişi seçebilirsiniz",
+                  },
+                })}
+              />
               {p}
             </label>
           ))}
         </div>
-        <p className="input-error">{errors.people}</p>
+        {errors.people && (
+          <p className="input-error">{errors.people.message}</p>
+        )}
       </div>
 
       <div className="form-line">
