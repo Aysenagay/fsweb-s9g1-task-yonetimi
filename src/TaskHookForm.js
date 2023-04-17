@@ -1,7 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-export default function TaskHookForm() {
+export default function TaskHookForm(props) {
+  const { kisiler } = props;
   const {
     register,
     handleSubmit,
@@ -58,21 +59,17 @@ export default function TaskHookForm() {
         <label className="input-label">İnsanlar</label>
         <div>
           {kisiler.map((p) => (
-            <label className="input-checkbox" key={p}>
-              <input type="checkbox" name="people" value={p} />
+            <label className="input-checkbox" key={p} htmlFor={p}>
+              <input type="checkbox" name="people" value={p} id={p} />
               {p}
             </label>
           ))}
         </div>
-        <p className="input-error">{formErrors.people}</p>
+        <p className="input-error">{errors.people}</p>
       </div>
 
       <div className="form-line">
-        <button
-          className="submit-button"
-          type="submit"
-          disabled={buttonDisabled}
-        >
+        <button className="submit-button" type="submit" disabled={!isValid}>
           Kaydet
         </button>
       </div>
